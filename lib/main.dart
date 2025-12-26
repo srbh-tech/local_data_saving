@@ -8,6 +8,7 @@ import 'hive/hive_page.dart';
 import 'hive/todo_model.dart';
 import 'shared_pref/preferences_service.dart';
 import 'shared_pref/settings_page.dart';
+import 'networking/networking_page.dart';
 import 'sqflite/sqflite_page.dart';
 
 void main() async {
@@ -51,7 +52,7 @@ class MyApp extends StatelessWidget {
                 seedColor: Colors.teal,
                 brightness: Brightness.light,
               ),
-              textTheme: GoogleFonts.outfitTextTheme(),
+              textTheme: ThemeData.light().textTheme,
               scaffoldBackgroundColor: const Color(0xFFF5F7FA),
               cardColor: Colors.white,
             ),
@@ -61,9 +62,7 @@ class MyApp extends StatelessWidget {
                 seedColor: Colors.teal,
                 brightness: Brightness.dark,
               ),
-              textTheme: GoogleFonts.outfitTextTheme(
-                ThemeData.dark().textTheme,
-              ),
+              textTheme: ThemeData.dark().textTheme,
               scaffoldBackgroundColor: const Color(0xFF121212),
               cardColor: const Color(0xFF1E1E1E),
             ),
@@ -85,13 +84,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
-  final List<Widget> _pages = const [SharedPrefsTab(), HiveTab(), SqfliteTab()];
+  final List<Widget> _pages = const [
+    SharedPrefsTab(),
+    HiveTab(),
+    SqfliteTab(),
+    NetworkingTab(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Local Data Storage'),
+        title: const Text('Local Data & Networking'),
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
@@ -107,17 +111,22 @@ class _HomePageState extends State<HomePage> {
           NavigationDestination(
             icon: Icon(Icons.settings_outlined),
             selectedIcon: Icon(Icons.settings),
-            label: 'Shared Prefs',
+            label: 'Prefs',
           ),
           NavigationDestination(
             icon: Icon(Icons.list_alt_outlined),
             selectedIcon: Icon(Icons.list_alt),
-            label: 'Hive (NoSQL)',
+            label: 'Hive',
           ),
           NavigationDestination(
             icon: Icon(Icons.storage_outlined),
             selectedIcon: Icon(Icons.storage),
-            label: 'Sqflite (SQL)',
+            label: 'Sqflite',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.public_outlined),
+            selectedIcon: Icon(Icons.public),
+            label: 'Network',
           ),
         ],
       ),
@@ -147,5 +156,13 @@ class SqfliteTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const SafeArea(child: SqflitePage());
+  }
+}
+
+class NetworkingTab extends StatelessWidget {
+  const NetworkingTab({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const SafeArea(child: NetworkingPage());
   }
 }
